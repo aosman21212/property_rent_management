@@ -50,6 +50,17 @@ Manage your rental properties end-to-end:
     'demo': [
         'demo/demo_data.xml',
     ],
+    'images': [
+        'static/description/main_screenshot.png',
+        'static/description/screen_00_home.png',
+        'static/description/screen_03_properties_kanban.png',
+        'static/description/screen_05_owners.png',
+        'static/description/screen_07_contracts_list.png',
+        'static/description/screen_08_contract_form.png',
+        'static/description/screen_09_payments.png',
+        'static/description/screen_10_maintenance_kanban.png',
+        'static/description/screen_11_api_keys.png',
+    ],
     'installable': True,
     'application': True,
     'license': 'LGPL-3',
