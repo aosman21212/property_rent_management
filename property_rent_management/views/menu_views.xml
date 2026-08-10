@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Root App menu -->
+    <menuitem id="menu_property_root"
+              name="Property"
+              sequence="50"
+              web_icon="property_rent_management,static/description/icon.png"/>
+
+    <!-- Dashboard -->
+    <menuitem id="menu_property_dashboard"
+              name="Dashboard"
+              parent="menu_property_root"
+              action="action_property_dashboard"
+              sequence="1"/>
+
+    <!-- Properties -->
+    <menuitem id="menu_property_properties"
+              name="Properties"
+              parent="menu_property_root"
+              sequence="10"/>
+
+    <menuitem id="menu_property_properties_list"
+              name="All Properties"
+              parent="menu_property_properties"
+              action="action_property_property"
+              sequence="1"/>
+
+    <menuitem id="menu_property_owner"
+              name="Owners"
+              parent="menu_property_properties"
+              action="action_property_owner"
+              sequence="2"/>
+
+    <!-- Rentals -->
+    <menuitem id="menu_property_rentals"
+              name="Rentals"
+              parent="menu_property_root"
+              sequence="20"/>
+
+    <menuitem id="menu_property_renter"
+              name="Renters / Tenants"
+              parent="menu_property_rentals"
+              action="action_property_renter"
+              sequence="1"/>
+
+    <menuitem id="menu_property_contract"
+              name="Contracts"
+              parent="menu_property_rentals"
+              action="action_property_contract"
+              sequence="2"/>
+
+    <!-- Payments -->
+    <menuitem id="menu_property_payments_root"
+              name="Payments"
+              parent="menu_property_root"
+              sequence="30"/>
+
+    <menuitem id="menu_property_payment"
+              name="Rent Payments"
+              parent="menu_property_payments_root"
+              action="action_property_payment"
+              sequence="1"/>
+
+    <!-- Maintenance -->
+    <menuitem id="menu_property_maintenance_root"
+              name="Maintenance"
+              parent="menu_property_root"
+              action="action_property_maintenance"
+              sequence="40"/>
+
+    <!-- Mobile API -->
+    <menuitem id="menu_property_api"
+              name="Mobile API"
+              parent="menu_property_root"
+              sequence="90"/>
+
+    <menuitem id="menu_property_api_key"
+              name="API Keys"
+              parent="menu_property_api"
+              action="action_property_api_key"
+              sequence="1"/>
+
+    <menuitem id="menu_property_api_log"
+              name="Integration Logs"
+              parent="menu_property_api"
+              action="action_property_api_log"
+              sequence="2"/>
+
+</odoo>

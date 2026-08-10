@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<data>
+
+    <!-- ─── Owners ──────────────────────────────────────────────────────────── -->
+    <record id="demo_owner_1" model="property.owner">
+        <field name="name">Ahmed Al-Mansouri</field>
+        <field name="phone">+965 5000 1111</field>
+        <field name="email">ahmed.mansouri@example.com</field>
+        <field name="id_number">KW-1234567</field>
+        <field name="address">Block 5, Street 12, Kuwait City</field>
+        <field name="note">Premium property portfolio owner. Prefers monthly payment collection.</field>
+    </record>
+
+    <record id="demo_owner_2" model="property.owner">
+        <field name="name">Sara Al-Rashidi</field>
+        <field name="phone">+965 5000 2222</field>
+        <field name="email">sara.rashidi@example.com</field>
+        <field name="id_number">KW-7654321</field>
+        <field name="address">Block 3, Street 7, Salmiya</field>
+        <field name="note">Commercial property specialist.</field>
+    </record>
+
+    <!-- ─── Properties ──────────────────────────────────────────────────────── -->
+    <record id="demo_property_1" model="property.property">
+        <field name="name">Marina View Apartment</field>
+        <field name="property_type">apartment</field>
+        <field name="owner_id" ref="demo_owner_1"/>
+        <field name="address">Marina Tower, Floor 8, Apt 804</field>
+        <field name="city">Kuwait City</field>
+        <field name="area">120.0</field>
+        <field name="bedrooms">3</field>
+        <field name="bathrooms">2</field>
+        <field name="floor">8</field>
+        <field name="furnished">True</field>
+        <field name="rent_amount">800.00</field>
+        <field name="status">rented</field>
+        <field name="description">&lt;p&gt;Luxury furnished apartment with stunning sea view. Modern kitchen, central A/C, covered parking.&lt;/p&gt;</field>
+    </record>
+
+    <record id="demo_property_2" model="property.property">
+        <field name="name">Salmiya Villa</field>
+        <field name="property_type">villa</field>
+        <field name="owner_id" ref="demo_owner_1"/>
+        <field name="address">Block 10, Street 4, Villa 22</field>
+        <field name="city">Salmiya</field>
+        <field name="area">350.0</field>
+        <field name="bedrooms">5</field>
+        <field name="bathrooms">4</field>
+        <field name="floor">0</field>
+        <field name="furnished">False</field>
+        <field name="rent_amount">1500.00</field>
+        <field name="status">available</field>
+        <field name="description">&lt;p&gt;Spacious standalone villa with private garden and swimming pool. Driver room included.&lt;/p&gt;</field>
+    </record>
+
+    <record id="demo_property_3" model="property.property">
+        <field name="name">Downtown Office Suite 201</field>
+        <field name="property_type">office</field>
+        <field name="owner_id" ref="demo_owner_2"/>
+        <field name="address">Business Tower, Floor 2, Suite 201</field>
+        <field name="city">Kuwait City</field>
+        <field name="area">80.0</field>
+        <field name="bedrooms">0</field>
+        <field name="bathrooms">1</field>
+        <field name="floor">2</field>
+        <field name="furnished">True</field>
+        <field name="rent_amount">600.00</field>
+        <field name="status">rented</field>
+        <field name="description">&lt;p&gt;Modern office space in prime downtown location. High-speed internet, meeting room access.&lt;/p&gt;</field>
+    </record>
+
+    <record id="demo_property_4" model="property.property">
+        <field name="name">Hawalli Shop Unit 5</field>
+        <field name="property_type">shop</field>
+        <field name="owner_id" ref="demo_owner_2"/>
+        <field name="address">Commercial Complex, Ground Floor, Unit 5</field>
+        <field name="city">Hawalli</field>
+        <field name="area">45.0</field>
+        <field name="bedrooms">0</field>
+        <field name="bathrooms">1</field>
+        <field name="floor">0</field>
+        <field name="furnished">False</field>
+        <field name="rent_amount">400.00</field>
+        <field name="status">maintenance</field>
+        <field name="description">&lt;p&gt;Ground floor retail unit with high foot traffic. Currently undergoing renovation.&lt;/p&gt;</field>
+    </record>
+
+    <!-- ─── Renters ──────────────────────────────────────────────────────────── -->
+    <record id="demo_renter_1" model="property.renter">
+        <field name="name">Khalid Al-Otaibi</field>
+        <field name="phone">+965 6000 1111</field>
+        <field name="email">khalid.otaibi@example.com</field>
+        <field name="id_number">KW-9876543</field>
+        <field name="address">Block 2, Street 9, Rumaithiya</field>
+        <field name="note">Long-term tenant. Always pays on time.</field>
+    </record>
+
+    <record id="demo_renter_2" model="property.renter">
+        <field name="name">Noura Al-Hajri</field>
+        <field name="phone">+965 6000 2222</field>
+        <field name="email">noura.hajri@example.com</field>
+        <field name="id_number">KW-1122334</field>
+        <field name="address">Block 6, Street 15, Salmiya</field>
+    </record>
+
+    <record id="demo_renter_3" model="property.renter">
+        <field name="name">Gulf Tech Solutions W.L.L.</field>
+        <field name="phone">+965 2200 3300</field>
+        <field name="email">admin@gulftechsolutions.kw</field>
+        <field name="id_number">CR-55667788</field>
+        <field name="address">P.O. Box 1234, Safat 13001</field>
+        <field name="note">Corporate tenant for office suite. Quarterly payments.</field>
+    </record>
+
+    <!-- ─── Contracts ─────────────────────────────────────────────────────────── -->
+    <record id="demo_contract_1" model="property.contract">
+        <field name="name">CONT/2026/DEMO01</field>
+        <field name="property_id" ref="demo_property_1"/>
+        <field name="renter_id" ref="demo_renter_1"/>
+        <field name="start_date">2026-01-01</field>
+        <field name="end_date">2026-12-31</field>
+        <field name="rent_amount">800.00</field>
+        <field name="deposit_amount">1600.00</field>
+        <field name="payment_frequency">monthly</field>
+        <field name="state">active</field>
+        <field name="note">&lt;p&gt;Annual contract. Deposit paid on signing. No pets policy.&lt;/p&gt;</field>
+    </record>
+
+    <record id="demo_contract_2" model="property.contract">
+        <field name="name">CONT/2026/DEMO02</field>
+        <field name="property_id" ref="demo_property_3"/>
+        <field name="renter_id" ref="demo_renter_3"/>
+        <field name="start_date">2026-03-01</field>
+        <field name="end_date">2027-02-28</field>
+        <field name="rent_amount">600.00</field>
+        <field name="deposit_amount">1200.00</field>
+        <field name="payment_frequency">quarterly</field>
+        <field name="state">active</field>
+        <field name="note">&lt;p&gt;Commercial lease. Company name on contract. Quarterly invoices required.&lt;/p&gt;</field>
+    </record>
+
+    <record id="demo_contract_3" model="property.contract">
+        <field name="name">CONT/2026/DEMO03</field>
+        <field name="property_id" ref="demo_property_2"/>
+        <field name="renter_id" ref="demo_renter_2"/>
+        <field name="start_date">2026-09-01</field>
+        <field name="end_date">2027-08-31</field>
+        <field name="rent_amount">1500.00</field>
+        <field name="deposit_amount">3000.00</field>
+        <field name="payment_frequency">monthly</field>
+        <field name="state">draft</field>
+        <field name="note">&lt;p&gt;Pending final review before activation.&lt;/p&gt;</field>
+    </record>
+
+    <!-- ─── Payments ─────────────────────────────────────────────────────────── -->
+    <record id="demo_payment_1" model="property.payment">
+        <field name="name">CONT/2026/DEMO01 - Payment 1</field>
+        <field name="contract_id" ref="demo_contract_1"/>
+        <field name="due_date">2026-01-01</field>
+        <field name="payment_date">2026-01-02</field>
+        <field name="amount">800.00</field>
+        <field name="state">paid</field>
+    </record>
+
+    <record id="demo_payment_2" model="property.payment">
+        <field name="name">CONT/2026/DEMO01 - Payment 2</field>
+        <field name="contract_id" ref="demo_contract_1"/>
+        <field name="due_date">2026-02-01</field>
+        <field name="payment_date">2026-02-03</field>
+        <field name="amount">800.00</field>
+        <field name="state">paid</field>
+    </record>
+
+    <record id="demo_payment_3" model="property.payment">
+        <field name="name">CONT/2026/DEMO01 - Payment 3</field>
+        <field name="contract_id" ref="demo_contract_1"/>
+        <field name="due_date">2026-03-01</field>
+        <field name="payment_date">2026-03-05</field>
+        <field name="amount">800.00</field>
+        <field name="state">paid</field>
+    </record>
+
+    <record id="demo_payment_4" model="property.payment">
+        <field name="name">CONT/2026/DEMO01 - Payment 4</field>
+        <field name="contract_id" ref="demo_contract_1"/>
+        <field name="due_date">2026-04-01</field>
+        <field name="amount">800.00</field>
+        <field name="state">late</field>
+    </record>
+
+    <record id="demo_payment_5" model="property.payment">
+        <field name="name">CONT/2026/DEMO01 - Payment 5</field>
+        <field name="contract_id" ref="demo_contract_1"/>
+        <field name="due_date">2026-05-01</field>
+        <field name="amount">800.00</field>
+        <field name="state">pending</field>
+    </record>
+
+    <!-- Office quarterly payments -->
+    <record id="demo_payment_6" model="property.payment">
+        <field name="name">CONT/2026/DEMO02 - Payment 1</field>
+        <field name="contract_id" ref="demo_contract_2"/>
+        <field name="due_date">2026-03-01</field>
+        <field name="payment_date">2026-03-01</field>
+        <field name="amount">1800.00</field>
+        <field name="state">paid</field>
+        <field name="note">Q1 2026 payment — 3 months × $600</field>
+    </record>
+
+    <record id="demo_payment_7" model="property.payment">
+        <field name="name">CONT/2026/DEMO02 - Payment 2</field>
+        <field name="contract_id" ref="demo_contract_2"/>
+        <field name="due_date">2026-06-01</field>
+        <field name="amount">1800.00</field>
+        <field name="state">pending</field>
+        <field name="note">Q2 2026 payment due</field>
+    </record>
+
+    <!-- ─── Maintenance ───────────────────────────────────────────────────────── -->
+    <record id="demo_maint_1" model="property.maintenance">
+        <field name="name">MNT/2026/DEMO01</field>
+        <field name="property_id" ref="demo_property_4"/>
+        <field name="maintenance_type">painting</field>
+        <field name="priority">1</field>
+        <field name="state">in_progress</field>
+        <field name="request_date">2026-07-15</field>
+        <field name="cost">500.00</field>
+        <field name="description">Full interior repaint — walls, ceilings and doors before new tenant move-in.</field>
+        <field name="note">&lt;p&gt;Using Jotun paint, semi-gloss finish. Two coats required.&lt;/p&gt;</field>
+    </record>
+
+    <record id="demo_maint_2" model="property.maintenance">
+        <field name="name">MNT/2026/DEMO02</field>
+        <field name="property_id" ref="demo_property_1"/>
+        <field name="maintenance_type">plumbing</field>
+        <field name="priority">2</field>
+        <field name="state">done</field>
+        <field name="request_date">2026-06-10</field>
+        <field name="completion_date">2026-06-11</field>
+        <field name="cost">80.00</field>
+        <field name="actual_cost">95.00</field>
+        <field name="description">Kitchen sink pipe leak — urgent repair requested by tenant.</field>
+    </record>
+
+    <record id="demo_maint_3" model="property.maintenance">
+        <field name="name">MNT/2026/DEMO03</field>
+        <field name="property_id" ref="demo_property_3"/>
+        <field name="maintenance_type">electrical</field>
+        <field name="priority">0</field>
+        <field name="state">new</field>
+        <field name="request_date">2026-08-01</field>
+        <field name="cost">150.00</field>
+        <field name="description">Replace faulty light switches in conference room and reception area.</field>
+    </record>
+
+    <!-- ─── API Key ───────────────────────────────────────────────────────────── -->
+    <record id="demo_api_key_1" model="property.api.key">
+        <field name="name">Mobile App — Production</field>
+        <field name="key">DEMO1A2B3C4D5E6F7G8H9I0J1K2L3M4N</field>
+        <field name="active">True</field>
+        <field name="description">Main API key used by the Flutter mobile application for property managers.</field>
+    </record>
+
+</data>
+</odoo>

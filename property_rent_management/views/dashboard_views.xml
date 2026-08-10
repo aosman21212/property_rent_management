@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Dashboard: aggregated KPI view using search panel + graph -->
+    <record id="view_property_dashboard" model="ir.ui.view">
+        <field name="name">property.dashboard</field>
+        <field name="model">property.property</field>
+        <field name="arch" type="xml">
+            <search string="Dashboard">
+                <separator/>
+                    <filter string="Status" name="group_status" context="{'group_by': 'status'}"/>
+                    <filter string="Type" name="group_type"
+                            context="{'group_by': 'property_type'}"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="view_property_property_pivot" model="ir.ui.view">
+        <field name="name">property.property.pivot</field>
+        <field name="model">property.property</field>
+        <field name="arch" type="xml">
+            <pivot string="Properties Overview">
+                <field name="property_type" type="row"/>
+                <field name="status" type="col"/>
+                <field name="rent_amount" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="view_property_payment_graph" model="ir.ui.view">
+        <field name="name">property.payment.graph</field>
+        <field name="model">property.payment</field>
+        <field name="arch" type="xml">
+            <graph string="Payment Activity" type="bar">
+                <field name="due_date" interval="month"/>
+                <field name="amount" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <!-- Dashboard action — shows properties pivot + link to payments graph -->
+    <record id="action_property_dashboard" model="ir.actions.act_window">
+        <field name="name">Dashboard</field>
+        <field name="res_model">property.property</field>
+        <field name="view_mode">list,kanban,pivot,form</field>
+        <field name="context">{
+            'search_default_group_status': 1
+        }</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Welcome to Rent Property Management
+            </p>
+            <p>Add your first property to get started.</p>
+        </field>
+    </record>
+
+</odoo>

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_property_api_log_list" model="ir.ui.view">
+        <field name="name">property.api.log.list</field>
+        <field name="model">property.api.log</field>
+        <field name="arch" type="xml">
+            <list string="API Logs" create="false" edit="false" delete="false">
+                <field name="request_date"/>
+                <field name="api_key_id"/>
+                <field name="method"/>
+                <field name="endpoint"/>
+                <field name="response_code"
+                       decoration-danger="response_code &gt;= 400"
+                       decoration-success="response_code &gt;= 200 and response_code &lt; 300"/>
+                <field name="ip_address"/>
+                <field name="duration_ms"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_property_api_log_form" model="ir.ui.view">
+        <field name="name">property.api.log.form</field>
+        <field name="model">property.api.log</field>
+        <field name="arch" type="xml">
+            <form string="API Log" create="false">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="api_key_id"/>
+                            <field name="method"/>
+                            <field name="endpoint"/>
+                            <field name="request_date"/>
+                            <field name="ip_address"/>
+                            <field name="duration_ms"/>
+                        </group>
+                        <group>
+                            <field name="response_code"/>
+                        </group>
+                    </group>
+                    <group string="Request Data">
+                        <field name="request_data" nolabel="1" readonly="1"/>
+                    </group>
+                    <group string="Response Data">
+                        <field name="response_data" nolabel="1" readonly="1"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_property_api_log_search" model="ir.ui.view">
+        <field name="name">property.api.log.search</field>
+        <field name="model">property.api.log</field>
+        <field name="arch" type="xml">
+            <search string="Search API Logs">
+                <field name="endpoint"/>
+                <field name="api_key_id"/>
+                <field name="ip_address"/>
+                <separator/>
+                <filter string="Errors (4xx/5xx)" name="errors"
+                        domain="[('response_code','&gt;=',400)]"/>
+                <filter string="Success (2xx)" name="success"
+                        domain="[('response_code','&gt;=',200),('response_code','&lt;',300)]"/>
+                <separator/>
+                    <filter string="API Key" name="group_key"
+                            context="{'group_by': 'api_key_id'}"/>
+                    <filter string="Method" name="group_method"
+                            context="{'group_by': 'method'}"/>
+                    <filter string="Date" name="group_date"
+                            context="{'group_by': 'request_date:day'}"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_property_api_log" model="ir.actions.act_window">
+        <field name="name">API Logs</field>
+        <field name="res_model">property.api.log</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_property_api_log_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">No API calls logged yet</p>
+        </field>
+    </record>
+
+</odoo>

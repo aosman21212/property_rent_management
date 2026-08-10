@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_property_contract_list" model="ir.ui.view">
+        <field name="name">property.contract.list</field>
+        <field name="model">property.contract</field>
+        <field name="arch" type="xml">
+            <list string="Rental Contracts" decoration-warning="state == 'expired'"
+                  decoration-muted="state == 'cancelled'">
+                <field name="name"/>
+                <field name="property_id"/>
+                <field name="owner_id"/>
+                <field name="renter_id"/>
+                <field name="start_date"/>
+                <field name="end_date"/>
+                <field name="rent_amount"/>
+                <field name="currency_id" column_invisible="True"/>
+                <field name="payment_frequency"/>
+                <field name="total_paid"/>
+                <field name="total_due"/>
+                <field name="state" widget="badge"
+                       decoration-success="state == 'active'"
+                       decoration-warning="state == 'expired'"
+                       decoration-info="state == 'draft'"
+                       decoration-danger="state == 'cancelled'"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_property_contract_form" model="ir.ui.view">
+        <field name="name">property.contract.form</field>
+        <field name="model">property.contract</field>
+        <field name="arch" type="xml">
+            <form string="Rental Contract">
+                <header>
+                    <button name="action_activate" string="Activate" type="object"
+                            class="btn-primary" invisible="state != 'draft'"/>
+                    <button name="action_expire" string="Mark Expired" type="object"
+                            class="btn-secondary" invisible="state != 'active'"/>
+                    <button name="action_cancel" string="Cancel" type="object"
+                            class="btn-danger" invisible="state in ('cancelled','expired')"/>
+                    <button name="action_reset_draft" string="Reset to Draft" type="object"
+                            invisible="state != 'cancelled'"/>
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="draft,active,expired"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <label class="text-muted" for="name"/>
+                        <h1><field name="name" readonly="1"/></h1>
+                    </div>
+                    <div class="o_button_box" name="button_box">
+                        <button name="action_view_payments" type="object"
+                                class="oe_stat_button" icon="fa-money">
+                            <field name="payment_count" widget="statinfo" string="Payments"/>
+                        </button>
+                    </div>
+                    <group>
+                        <group string="Parties">
+                            <field name="property_id"/>
+                            <field name="owner_id" readonly="1"/>
+                            <field name="renter_id"/>
+                        </group>
+                        <group string="Financial">
+                            <field name="rent_amount"/>
+                            <field name="deposit_amount"/>
+                            <field name="currency_id"/>
+                            <field name="payment_frequency"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group string="Duration">
+                            <field name="start_date"/>
+                            <field name="end_date"/>
+                        </group>
+                        <group string="Summary">
+                            <field name="total_paid"/>
+                            <field name="total_due"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Payments">
+                            <field name="payment_ids" readonly="state != 'draft'">
+                                <list editable="bottom"
+                                      decoration-danger="state == 'late'"
+                                      decoration-success="state == 'paid'"
+                                      decoration-muted="state == 'cancelled'">
+                                    <field name="name"/>
+                                    <field name="due_date"/>
+                                    <field name="payment_date"/>
+                                    <field name="amount"/>
+                                    <field name="state" widget="badge"
+                                           decoration-success="state == 'paid'"
+                                           decoration-danger="state == 'late'"
+                                           decoration-warning="state == 'pending'"
+                                           decoration-muted="state == 'cancelled'"/>
+                                    <button name="action_mark_paid" type="object"
+                                            string="Mark Paid" icon="fa-check"
+                                            invisible="state == 'paid'"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Terms &amp; Notes">
+                            <field name="note" placeholder="Contract terms, conditions, notes..."/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_property_contract_search" model="ir.ui.view">
+        <field name="name">property.contract.search</field>
+        <field name="model">property.contract</field>
+        <field name="arch" type="xml">
+            <search string="Search Contracts">
+                <field name="name"/>
+                <field name="property_id"/>
+                <field name="renter_id"/>
+                <field name="owner_id"/>
+                <separator/>
+                <filter string="Draft" name="draft" domain="[('state','=','draft')]"/>
+                <filter string="Active" name="active_contracts" domain="[('state','=','active')]"/>
+                <filter string="Expired" name="expired" domain="[('state','=','expired')]"/>
+                <filter string="Cancelled" name="cancelled" domain="[('state','=','cancelled')]"/>
+                <separator/>
+                    <filter string="Status" name="group_state" context="{'group_by': 'state'}"/>
+                    <filter string="Property" name="group_property"
+                            context="{'group_by': 'property_id'}"/>
+                    <filter string="Renter" name="group_renter"
+                            context="{'group_by': 'renter_id'}"/>
+                    <filter string="Frequency" name="group_freq"
+                            context="{'group_by': 'payment_frequency'}"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_property_contract" model="ir.actions.act_window">
+        <field name="name">Rental Contracts</field>
+        <field name="res_model">property.contract</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_property_contract_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Create your first rental contract</p>
+        </field>
+    </record>
+
+</odoo>

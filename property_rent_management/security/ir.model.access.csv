@@ -1,0 +1,9 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_property_property,property.property,model_property_property,,1,1,1,1
+access_property_owner,property.owner,model_property_owner,,1,1,1,1
+access_property_renter,property.renter,model_property_renter,,1,1,1,1
+access_property_contract,property.contract,model_property_contract,,1,1,1,1
+access_property_payment,property.payment,model_property_payment,,1,1,1,1
+access_property_maintenance,property.maintenance,model_property_maintenance,,1,1,1,1
+access_property_api_key,property.api.key,model_property_api_key,,1,1,1,1
+access_property_api_log,property.api.log,model_property_api_log,,1,1,1,1

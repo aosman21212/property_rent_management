@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_property_renter_list" model="ir.ui.view">
+        <field name="name">property.renter.list</field>
+        <field name="model">property.renter</field>
+        <field name="arch" type="xml">
+            <list string="Renters / Tenants">
+                <field name="name"/>
+                <field name="phone"/>
+                <field name="email"/>
+                <field name="id_number"/>
+                <field name="contract_count"/>
+                <field name="payment_count"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_property_renter_form" model="ir.ui.view">
+        <field name="name">property.renter.form</field>
+        <field name="model">property.renter</field>
+        <field name="arch" type="xml">
+            <form string="Renter / Tenant">
+                <sheet>
+                    <field name="image" widget="image" class="oe_avatar"/>
+                    <div class="oe_title">
+                        <h1><field name="name" placeholder="Renter Name"/></h1>
+                    </div>
+                    <div class="o_button_box" name="button_box">
+                        <button name="action_view_contracts"
+                                type="object"
+                                class="oe_stat_button"
+                                icon="fa-file-text">
+                            <field name="contract_count" widget="statinfo" string="Contracts"/>
+                        </button>
+                        <button name="action_view_payments"
+                                type="object"
+                                class="oe_stat_button"
+                                icon="fa-money">
+                            <field name="payment_count" widget="statinfo" string="Payments"/>
+                        </button>
+                    </div>
+                    <group>
+                        <group string="Contact Details">
+                            <field name="partner_id"/>
+                            <field name="phone" widget="phone"/>
+                            <field name="email" widget="email"/>
+                            <field name="address"/>
+                        </group>
+                        <group string="Identity">
+                            <field name="id_number"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Contracts">
+                            <field name="contract_ids" readonly="1">
+                                <list>
+                                    <field name="name"/>
+                                    <field name="property_id"/>
+                                    <field name="start_date"/>
+                                    <field name="end_date"/>
+                                    <field name="rent_amount"/>
+                                    <field name="state" widget="badge"
+                                           decoration-success="state == 'active'"
+                                           decoration-warning="state == 'expired'"
+                                           decoration-muted="state in ('draft','cancelled')"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Notes">
+                            <field name="note" placeholder="Internal notes..."/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_property_renter_search" model="ir.ui.view">
+        <field name="name">property.renter.search</field>
+        <field name="model">property.renter</field>
+        <field name="arch" type="xml">
+            <search string="Search Renters">
+                <field name="name"/>
+                <field name="phone"/>
+                <field name="email"/>
+                <field name="id_number"/>
+                <filter string="Archived" name="inactive" domain="[('active','=',False)]"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_property_renter" model="ir.actions.act_window">
+        <field name="name">Renters / Tenants</field>
+        <field name="res_model">property.renter</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_property_renter_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Add your first renter / tenant</p>
+        </field>
+    </record>
+
+</odoo>

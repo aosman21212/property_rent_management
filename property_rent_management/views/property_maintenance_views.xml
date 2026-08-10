@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_property_maintenance_list" model="ir.ui.view">
+        <field name="name">property.maintenance.list</field>
+        <field name="model">property.maintenance</field>
+        <field name="arch" type="xml">
+            <list string="Maintenance Requests"
+                  decoration-danger="priority == '2'"
+                  decoration-warning="priority == '1'">
+                <field name="name"/>
+                <field name="property_id"/>
+                <field name="maintenance_type"/>
+                <field name="priority" widget="priority"/>
+                <field name="responsible_id"/>
+                <field name="request_date"/>
+                <field name="completion_date"/>
+                <field name="cost"/>
+                <field name="currency_id" column_invisible="True"/>
+                <field name="state" widget="badge"
+                       decoration-info="state == 'new'"
+                       decoration-warning="state == 'in_progress'"
+                       decoration-success="state == 'done'"
+                       decoration-muted="state == 'cancelled'"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_property_maintenance_kanban" model="ir.ui.view">
+        <field name="name">property.maintenance.kanban</field>
+        <field name="model">property.maintenance</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="state">
+                <field name="name"/>
+                <field name="property_id"/>
+                <field name="maintenance_type"/>
+                <field name="priority"/>
+                <field name="state"/>
+                <field name="responsible_id"/>
+                <templates>
+                    <t t-name="card">
+                        <div class="fw-bold"><field name="name"/></div>
+                        <div class="text-muted small">
+                            <field name="property_id"/> · <field name="maintenance_type"/>
+                        </div>
+                        <div class="mt-1">
+                            <field name="priority" widget="priority"/>
+                        </div>
+                        <div class="small mt-1">
+                            <i class="fa fa-user"/> <field name="responsible_id"/>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="view_property_maintenance_form" model="ir.ui.view">
+        <field name="name">property.maintenance.form</field>
+        <field name="model">property.maintenance</field>
+        <field name="arch" type="xml">
+            <form string="Maintenance Request">
+                <header>
+                    <button name="action_start" string="Start Work" type="object"
+                            class="btn-primary" invisible="state != 'new'"/>
+                    <button name="action_done" string="Mark Done" type="object"
+                            class="btn-success" invisible="state != 'in_progress'"/>
+                    <button name="action_cancel" string="Cancel" type="object"
+                            class="btn-danger"
+                            invisible="state in ('done','cancelled')"/>
+                    <button name="action_reset" string="Reset" type="object"
+                            invisible="state not in ('cancelled','done')"/>
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="new,in_progress,done"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <label class="text-muted" for="name"/>
+                        <h1><field name="name" readonly="1"/></h1>
+                    </div>
+                    <group>
+                        <group string="Details">
+                            <field name="property_id"/>
+                            <field name="owner_id" readonly="1"/>
+                            <field name="maintenance_type"/>
+                            <field name="priority" widget="priority"/>
+                            <field name="responsible_id"/>
+                        </group>
+                        <group string="Dates &amp; Cost">
+                            <field name="request_date"/>
+                            <field name="completion_date"/>
+                            <field name="cost"/>
+                            <field name="actual_cost"/>
+                            <field name="currency_id"/>
+                        </group>
+                    </group>
+                    <group string="Description">
+                        <field name="description" nolabel="1" placeholder="Describe the issue..."/>
+                    </group>
+                    <notebook>
+                        <page string="Work Notes">
+                            <field name="note" placeholder="Work notes, materials used..."/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_property_maintenance_search" model="ir.ui.view">
+        <field name="name">property.maintenance.search</field>
+        <field name="model">property.maintenance</field>
+        <field name="arch" type="xml">
+            <search string="Search Maintenance">
+                <field name="name"/>
+                <field name="property_id"/>
+                <field name="responsible_id"/>
+                <separator/>
+                <filter string="New" name="new" domain="[('state','=','new')]"/>
+                <filter string="In Progress" name="in_progress"
+                        domain="[('state','=','in_progress')]"/>
+                <filter string="Done" name="done" domain="[('state','=','done')]"/>
+                <separator/>
+                <filter string="Critical" name="critical" domain="[('priority','=','2')]"/>
+                <filter string="Urgent" name="urgent" domain="[('priority','=','1')]"/>
+                <separator/>
+                    <filter string="Status" name="group_state" context="{'group_by': 'state'}"/>
+                    <filter string="Property" name="group_property"
+                            context="{'group_by': 'property_id'}"/>
+                    <filter string="Type" name="group_type"
+                            context="{'group_by': 'maintenance_type'}"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_property_maintenance" model="ir.actions.act_window">
+        <field name="name">Maintenance</field>
+        <field name="res_model">property.maintenance</field>
+        <field name="view_mode">kanban,list,form</field>
+        <field name="search_view_id" ref="view_property_maintenance_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">No maintenance requests yet</p>
+        </field>
+    </record>
+
+</odoo>

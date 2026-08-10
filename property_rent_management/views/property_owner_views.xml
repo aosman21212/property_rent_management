@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- List -->
+    <record id="view_property_owner_list" model="ir.ui.view">
+        <field name="name">property.owner.list</field>
+        <field name="model">property.owner</field>
+        <field name="arch" type="xml">
+            <list string="Property Owners">
+                <field name="name"/>
+                <field name="phone"/>
+                <field name="email"/>
+                <field name="id_number"/>
+                <field name="property_count"/>
+                <field name="contract_count"/>
+                <field name="active" column_invisible="True"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Form -->
+    <record id="view_property_owner_form" model="ir.ui.view">
+        <field name="name">property.owner.form</field>
+        <field name="model">property.owner</field>
+        <field name="arch" type="xml">
+            <form string="Property Owner">
+                <sheet>
+                    <field name="image" widget="image" class="oe_avatar"/>
+                    <div class="oe_title">
+                        <h1><field name="name" placeholder="Owner Name"/></h1>
+                    </div>
+                    <div class="o_button_box" name="button_box">
+                        <button name="action_view_properties"
+                                type="object"
+                                class="oe_stat_button"
+                                icon="fa-building">
+                            <field name="property_count" widget="statinfo" string="Properties"/>
+                        </button>
+                        <button name="action_view_contracts"
+                                type="object"
+                                class="oe_stat_button"
+                                icon="fa-file-text">
+                            <field name="contract_count" widget="statinfo" string="Contracts"/>
+                        </button>
+                    </div>
+                    <group>
+                        <group string="Contact Details">
+                            <field name="partner_id"/>
+                            <field name="phone" widget="phone"/>
+                            <field name="email" widget="email"/>
+                            <field name="address"/>
+                        </group>
+                        <group string="Identity">
+                            <field name="id_number"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Properties">
+                            <field name="property_ids" readonly="1">
+                                <list>
+                                    <field name="code"/>
+                                    <field name="name"/>
+                                    <field name="property_type"/>
+                                    <field name="city"/>
+                                    <field name="rent_amount"/>
+                                    <field name="status" widget="badge"
+                                           decoration-success="status == 'available'"
+                                           decoration-warning="status == 'maintenance'"
+                                           decoration-info="status == 'rented'"
+                                           decoration-muted="status == 'inactive'"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Notes">
+                            <field name="note" placeholder="Internal notes..."/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <!-- Search -->
+    <record id="view_property_owner_search" model="ir.ui.view">
+        <field name="name">property.owner.search</field>
+        <field name="model">property.owner</field>
+        <field name="arch" type="xml">
+            <search string="Search Owners">
+                <field name="name"/>
+                <field name="phone"/>
+                <field name="email"/>
+                <field name="id_number"/>
+                <filter string="Archived" name="inactive" domain="[('active','=',False)]"/>
+            </search>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_property_owner" model="ir.actions.act_window">
+        <field name="name">Property Owners</field>
+        <field name="res_model">property.owner</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_property_owner_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Add your first property owner</p>
+        </field>
+    </record>
+
+</odoo>

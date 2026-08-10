@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_property_payment_list" model="ir.ui.view">
+        <field name="name">property.payment.list</field>
+        <field name="model">property.payment</field>
+        <field name="arch" type="xml">
+            <list string="Rent Payments"
+                  decoration-danger="state == 'late'"
+                  decoration-success="state == 'paid'"
+                  decoration-muted="state == 'cancelled'">
+                <field name="name"/>
+                <field name="property_id"/>
+                <field name="renter_id"/>
+                <field name="due_date"/>
+                <field name="payment_date"/>
+                <field name="amount"/>
+                <field name="currency_id" column_invisible="True"/>
+                <field name="state" widget="badge"
+                       decoration-success="state == 'paid'"
+                       decoration-danger="state == 'late'"
+                       decoration-warning="state == 'pending'"
+                       decoration-muted="state == 'cancelled'"/>
+                <button name="action_mark_paid" type="object"
+                        string="Pay" icon="fa-check"
+                        invisible="state in ('paid','cancelled')"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_property_payment_form" model="ir.ui.view">
+        <field name="name">property.payment.form</field>
+        <field name="model">property.payment</field>
+        <field name="arch" type="xml">
+            <form string="Rent Payment">
+                <header>
+                    <button name="action_mark_paid" string="Mark as Paid" type="object"
+                            class="btn-primary" invisible="state in ('paid','cancelled')"/>
+                    <button name="action_mark_late" string="Mark as Late" type="object"
+                            invisible="state != 'pending'"/>
+                    <button name="action_create_invoice" string="Create Invoice" type="object"
+                            invisible="state == 'cancelled'"/>
+                    <button name="action_cancel" string="Cancel" type="object"
+                            class="btn-danger"
+                            invisible="state in ('cancelled','paid')"/>
+                    <button name="action_reset_pending" string="Reset to Pending" type="object"
+                            invisible="state not in ('cancelled','late')"/>
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="pending,paid,late"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name" placeholder="Payment Reference"/></h1>
+                    </div>
+                    <group>
+                        <group string="Details">
+                            <field name="contract_id"/>
+                            <field name="property_id" readonly="1"/>
+                            <field name="owner_id" readonly="1"/>
+                            <field name="renter_id" readonly="1"/>
+                        </group>
+                        <group string="Amounts &amp; Dates">
+                            <field name="amount"/>
+                            <field name="currency_id"/>
+                            <field name="due_date"/>
+                            <field name="payment_date"/>
+                            <field name="move_id" readonly="1"/>
+                        </group>
+                    </group>
+                    <group string="Notes">
+                        <field name="note" nolabel="1"/>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_property_payment_search" model="ir.ui.view">
+        <field name="name">property.payment.search</field>
+        <field name="model">property.payment</field>
+        <field name="arch" type="xml">
+            <search string="Search Payments">
+                <field name="name"/>
+                <field name="property_id"/>
+                <field name="renter_id"/>
+                <field name="contract_id"/>
+                <separator/>
+                <filter string="Pending" name="pending" domain="[('state','=','pending')]"/>
+                <filter string="Paid" name="paid" domain="[('state','=','paid')]"/>
+                <filter string="Late" name="late" domain="[('state','=','late')]"/>
+                <separator/>
+                <filter string="Due This Month" name="this_month"
+                        domain="[('due_date','&gt;=', (context_today()).strftime('%Y-%m-01')),
+                                 ('due_date','&lt;=', (context_today()).strftime('%Y-%m-28'))]"/>
+                <separator/>
+                    <filter string="Status" name="group_state" context="{'group_by': 'state'}"/>
+                    <filter string="Property" name="group_property"
+                            context="{'group_by': 'property_id'}"/>
+                    <filter string="Renter" name="group_renter"
+                            context="{'group_by': 'renter_id'}"/>
+                    <filter string="Due Date" name="group_due"
+                            context="{'group_by': 'due_date:month'}"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_property_payment" model="ir.actions.act_window">
+        <field name="name">Rent Payments</field>
+        <field name="res_model">property.payment</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_property_payment_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">No payments yet</p>
+        </field>
+    </record>
+
+</odoo>

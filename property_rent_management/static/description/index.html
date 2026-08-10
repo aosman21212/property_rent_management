@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Rent Property Management | إدارة العقارات</title>
+    <style>
+        /* ── Reset ─────────────────────────────────────────────────────── */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+                         "Noto Sans Arabic", "Tahoma", sans-serif;
+            color: #343A40;
+            background: #fff;
+            line-height: 1.7;
+        }
+
+        /* ── Language switcher ─────────────────────────────────────────── */
+        .lang-bar {
+            background: #1F1436;
+            padding: 10px 24px;
+            display: flex;
+            justify-content: flex-end;
+            gap: 8px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .lang-btn {
+            background: transparent;
+            border: 1px solid rgba(255,255,255,0.35);
+            color: rgba(255,255,255,0.7);
+            padding: 5px 18px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.82rem;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+        .lang-btn.active {
+            background: #714B67;
+            border-color: #714B67;
+            color: #fff;
+        }
+        .lang-btn:hover { color: #fff; border-color: #fff; }
+
+        /* ── Content panels ────────────────────────────────────────────── */
+        .panel { display: none; }
+        .panel.active { display: block; }
+        .panel[dir="rtl"] {
+            font-family: "Noto Sans Arabic", "Tahoma", "Arial", sans-serif;
+        }
+
+        /* ── Hero ──────────────────────────────────────────────────────── */
+        .hero {
+            background: linear-gradient(135deg, #714B67 0%, #4A1942 60%, #1F1436 100%);
+            color: #fff;
+            padding: 60px 40px 50px;
+            text-align: center;
+        }
+        .hero-logo {
+            width: 110px; height: 110px;
+            border-radius: 50%;
+            border: 4px solid rgba(255,255,255,0.3);
+            margin: 0 auto 24px;
+            display: block;
+            object-fit: cover;
+        }
+        .hero h1 { font-size: 2.3rem; font-weight: 700; margin-bottom: 14px; }
+        .hero p { font-size: 1.1rem; opacity: 0.88; max-width: 640px; margin: 0 auto 28px; }
+        .hero-badges { display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; }
+        .hero-badge {
+            background: rgba(255,255,255,0.15);
+            border: 1px solid rgba(255,255,255,0.3);
+            border-radius: 20px;
+            padding: 5px 16px;
+            font-size: 0.82rem;
+            font-weight: 600;
+        }
+
+        /* ── Sections ──────────────────────────────────────────────────── */
+        .section { padding: 56px 40px; }
+        .section:nth-child(even) { background: #F8F6FF; }
+        .section-title { font-size: 1.7rem; font-weight: 700; color: #714B67; margin-bottom: 8px; }
+        .section-subtitle { color: #6C757D; font-size: 1rem; margin-bottom: 36px; }
+        .divider {
+            width: 52px; height: 4px;
+            background: linear-gradient(90deg, #714B67, #017E84);
+            border-radius: 2px; margin: 10px 0 28px;
+        }
+        [dir="rtl"] .divider { background: linear-gradient(270deg, #714B67, #017E84); }
+
+        /* ── Highlights ────────────────────────────────────────────────── */
+        .highlights { display: flex; gap: 20px; flex-wrap: wrap; }
+        .highlight {
+            flex: 1; min-width: 180px;
+            background: linear-gradient(135deg, #714B67, #4A1942);
+            color: #fff; border-radius: 14px;
+            padding: 28px 22px; text-align: center;
+        }
+        .highlight .big { font-size: 2.3rem; font-weight: 700; margin-bottom: 4px; }
+        .highlight .lbl { font-size: 0.85rem; opacity: 0.85; }
+
+        /* ── Feature grid ──────────────────────────────────────────────── */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+        .feature-card {
+            background: #fff; border-radius: 14px;
+            padding: 28px 24px;
+            box-shadow: 0 2px 14px rgba(113,75,103,0.10);
+            border-left: 4px solid #714B67;
+        }
+        [dir="rtl"] .feature-card {
+            border-left: none;
+            border-right: 4px solid #714B67;
+        }
+        .feature-card .icon { font-size: 2rem; margin-bottom: 12px; }
+        .feature-card h3 { font-size: 1.05rem; font-weight: 700; color: #714B67; margin-bottom: 8px; }
+        .feature-card p { font-size: 0.88rem; color: #555; line-height: 1.6; }
+
+        /* ── Screenshots ───────────────────────────────────────────────── */
+        .screenshot-block {
+            display: flex; align-items: center;
+            gap: 48px; margin-bottom: 60px;
+        }
+        .screenshot-block:last-child { margin-bottom: 0; }
+        .screenshot-block.reverse { flex-direction: row-reverse; }
+        .screenshot-block img {
+            width: 62%; border-radius: 12px;
+            box-shadow: 0 6px 32px rgba(0,0,0,0.14);
+            border: 1px solid #E0D8EB; flex-shrink: 0;
+        }
+        .screenshot-text { flex: 1; }
+        .screenshot-text .tag {
+            display: inline-block;
+            background: #EDE7F6; color: #714B67;
+            font-size: 0.75rem; font-weight: 700;
+            letter-spacing: 0.8px; text-transform: uppercase;
+            padding: 3px 12px; border-radius: 20px; margin-bottom: 12px;
+        }
+        .screenshot-text h3 { font-size: 1.3rem; font-weight: 700; margin-bottom: 12px; }
+        .screenshot-text p { color: #555; font-size: 0.93rem; margin-bottom: 14px; }
+        .check-list { list-style: none; }
+        .check-list li { font-size: 0.88rem; color: #444; padding: 3px 0; }
+        .check-list li::before { content: "✓ "; color: #017E84; font-weight: 700; }
+        [dir="rtl"] .check-list li::before { content: "✓ "; }
+
+        /* ── Steps ─────────────────────────────────────────────────────── */
+        .steps { display: flex; gap: 0; position: relative; }
+        .steps::before {
+            content: ""; position: absolute;
+            top: 30px; left: 40px; right: 40px; height: 2px;
+            background: linear-gradient(90deg, #714B67, #017E84);
+            z-index: 0;
+        }
+        [dir="rtl"] .steps::before {
+            background: linear-gradient(270deg, #714B67, #017E84);
+        }
+        .step { flex: 1; text-align: center; position: relative; z-index: 1; padding: 0 12px; }
+        .step-num {
+            width: 60px; height: 60px;
+            background: linear-gradient(135deg, #714B67, #4A1942);
+            color: #fff; font-size: 1.3rem; font-weight: 700;
+            border-radius: 50%; display: flex; align-items: center;
+            justify-content: center; margin: 0 auto 14px;
+            box-shadow: 0 4px 12px rgba(113,75,103,0.35);
+        }
+        .step h4 { font-size: 0.9rem; font-weight: 700; color: #714B67; margin-bottom: 5px; }
+        .step p { font-size: 0.8rem; color: #666; }
+
+        /* ── Deps ──────────────────────────────────────────────────────── */
+        .deps { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 14px; }
+        .dep {
+            background: #EDE7F6; border-radius: 8px;
+            padding: 9px 18px; font-size: 0.88rem;
+            font-weight: 600; color: #714B67;
+        }
+
+        /* ── Tech columns ──────────────────────────────────────────────── */
+        .tech-cols { display: flex; gap: 48px; flex-wrap: wrap; }
+        .tech-col { flex: 1; min-width: 240px; }
+        .tech-col h3 { font-size: 1rem; color: #714B67; margin-bottom: 12px; font-weight: 700; }
+        code {
+            background: #F3EEF8; color: #714B67;
+            padding: 1px 6px; border-radius: 4px;
+            font-size: 0.82rem;
+        }
+
+        /* ── Footer ────────────────────────────────────────────────────── */
+        .footer {
+            background: #1F1436; color: rgba(255,255,255,0.7);
+            text-align: center; padding: 36px 40px; font-size: 0.85rem;
+        }
+        .footer strong { color: #fff; }
+        .footer p + p { margin-top: 8px; font-size: 0.8rem; }
+
+        /* ── Responsive ────────────────────────────────────────────────── */
+        @media (max-width: 900px) {
+            .features-grid { grid-template-columns: 1fr 1fr; }
+            .screenshot-block,
+            .screenshot-block.reverse { flex-direction: column; }
+            .screenshot-block img { width: 100%; }
+            .steps::before { display: none; }
+        }
+        @media (max-width: 600px) {
+            .features-grid { grid-template-columns: 1fr; }
+            .hero h1 { font-size: 1.7rem; }
+            .section { padding: 40px 20px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════════════════════════════════
+     LANGUAGE SWITCHER
+══════════════════════════════════════════════════════════════════════════ -->
+<div class="lang-bar">
+    <button class="lang-btn active" onclick="switchLang('en')">🇬🇧 English</button>
+    <button class="lang-btn"        onclick="switchLang('ar')">🇸🇦 العربية</button>
+</div>
+
+<script>
+function switchLang(lang) {
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+    document.getElementById('panel-' + lang).classList.add('active');
+    document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+    event.target.classList.add('active');
+}
+</script>
+
+<!-- ══════════════════════════════════════════════════════════════════════════
+     ENGLISH PANEL
+══════════════════════════════════════════════════════════════════════════ -->
+<div id="panel-en" class="panel active" dir="ltr">
+
+    <!-- Hero -->
+    <div class="hero">
+        <img class="hero-logo" src="icon.png" alt="Rent Property Management"/>
+        <h1>Rent Property Management</h1>
+        <p>A complete end-to-end solution for managing rental properties — owners,
+           tenants, contracts, payments, maintenance and mobile API access,
+           all inside Odoo 19.</p>
+        <div class="hero-badges">
+            <span class="hero-badge">🏠 Properties</span>
+            <span class="hero-badge">📄 Contracts</span>
+            <span class="hero-badge">💰 Payments</span>
+            <span class="hero-badge">🔧 Maintenance</span>
+            <span class="hero-badge">📱 Mobile API</span>
+            <span class="hero-badge">Odoo 19.0</span>
+        </div>
+    </div>
+
+    <!-- KPIs -->
+    <div class="section">
+        <div class="highlights">
+            <div class="highlight"><div class="big">8</div><div class="lbl">Dedicated Models</div></div>
+            <div class="highlight"><div class="big">5</div><div class="lbl">App Sections</div></div>
+            <div class="highlight"><div class="big">∞</div><div class="lbl">Properties &amp; Contracts</div></div>
+            <div class="highlight"><div class="big">📱</div><div class="lbl">Mobile API Ready</div></div>
+            <div class="highlight"><div class="big">🔁</div><div class="lbl">Auto Payment Scheduling</div></div>
+        </div>
+    </div>
+
+    <!-- Features -->
+    <div class="section">
+        <div class="section-title">Everything You Need to Manage Rentals</div>
+        <div class="divider"></div>
+        <div class="section-subtitle">All modules work together in a single coherent workflow — no external apps needed.</div>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="icon">🏠</div>
+                <h3>Property Portfolio</h3>
+                <p>Track apartments, villas, offices, shops and warehouses with type, area,
+                   bedrooms, floor, furnished status, images and rent amount. Kanban &amp;
+                   list views with status badges.</p>
+            </div>
+            <div class="feature-card">
+                <div class="icon">👤</div>
+                <h3>Owner &amp; Renter Profiles</h3>
+                <p>Full profiles for property owners and tenants — phone, email, ID/passport,
+                   photo and smart-button counters linking directly to their properties,
+                   contracts and payment history.</p>
+            </div>
+            <div class="feature-card">
+                <div class="icon">📄</div>
+                <h3>Rental Contracts</h3>
+                <p>Complete lifecycle: Draft → Active → Expired/Cancelled. On activation,
+                   payment schedules are auto-generated based on frequency
+                   (Monthly, Quarterly, Bi-Annual, Yearly).</p>
+            </div>
+            <div class="feature-card">
+                <div class="icon">💰</div>
+                <h3>Payment Tracking</h3>
+                <p>Color-coded payments: green (paid), red (late), orange (pending).
+                   One-click Mark as Paid, auto-mark overdue via cron, and
+                   direct invoice creation linked to Odoo Accounting.</p>
+            </div>
+            <div class="feature-card">
+                <div class="icon">🔧</div>
+                <h3>Maintenance Workflow</h3>
+                <p>Maintenance requests with type (Plumbing, Electrical, HVAC…),
+                   priority (Normal / Urgent / Critical), assigned technician,
+                   cost tracking and automatic property status sync.</p>
+            </div>
+            <div class="feature-card">
+                <div class="icon">📱</div>
+                <h3>Mobile API &amp; Logs</h3>
+                <p>Generate UUID API keys for mobile app access. Full integration log
+                   with endpoint, HTTP method, response code, IP address and
+                   duration — ready for Flutter or any mobile client.</p>
+            </div>
+            <div class="feature-card">
+                <div class="icon">📊</div>
+                <h3>Smart Dashboard</h3>
+                <p>Portfolio overview grouped by status and type. Pivot and graph
+                   views for performance analysis. Quick filters:
+                   Available, Rented, Under Maintenance.</p>
+            </div>
+            <div class="feature-card">
+                <div class="icon">📅</div>
+                <h3>Auto Payment Scheduling</h3>
+                <p>Activating a contract automatically creates all scheduled payment
+                   records for the full contract duration, saving hours of
+                   manual data entry.</p>
+            </div>
+            <div class="feature-card">
+                <div class="icon">🔔</div>
+                <h3>Chatter &amp; Tracking</h3>
+                <p>Every model has full chatter support — log notes, send messages,
+                   schedule activities. Field tracking records who changed what and
+                   when on every record.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Screenshots -->
+    <div class="section">
+        <div class="section-title">Screenshots</div>
+        <div class="divider"></div>
+
+        <div class="screenshot-block">
+            <img src="screen_03_properties_kanban.png" alt="Properties Kanban"/>
+            <div class="screenshot-text">
+                <span class="tag">Properties</span>
+                <h3>Kanban View — Properties by Status</h3>
+                <p>Instant visual overview of your portfolio organised in columns by status.
+                   Each card shows property name, type, city and monthly rent.</p>
+                <ul class="check-list">
+                    <li>Group by Status, Type, Owner or City</li>
+                    <li>Color-coded columns: Available, Rented, Maintenance</li>
+                    <li>Switch to List or Pivot view in one click</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="screenshot-block reverse">
+            <img src="screen_08_contract_form.png" alt="Contract Form"/>
+            <div class="screenshot-text">
+                <span class="tag">Contracts</span>
+                <h3>Rental Contract — Full Lifecycle</h3>
+                <p>Each contract links an owner, renter and property. Activating it
+                   auto-generates all scheduled payments for the full duration.</p>
+                <ul class="check-list">
+                    <li>Status bar: Draft → Active → Expired</li>
+                    <li>Auto-generated payments on activation</li>
+                    <li>Security deposit tracking</li>
+                    <li>Inline payment table with mark-as-paid button</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="screenshot-block">
+            <img src="screen_09_payments.png" alt="Payments List"/>
+            <div class="screenshot-text">
+                <span class="tag">Payments</span>
+                <h3>Rent Payments — Color-Coded Tracking</h3>
+                <p>All payments across all contracts in one place. Rows highlighted
+                   green (paid), red (late) and yellow (pending).</p>
+                <ul class="check-list">
+                    <li>Paid / Late / Pending / Cancelled statuses</li>
+                    <li>One-click Mark as Paid</li>
+                    <li>Cron auto-marks overdue as Late</li>
+                    <li>Create Odoo invoice directly from payment</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="screenshot-block reverse">
+            <img src="screen_10_maintenance_kanban.png" alt="Maintenance Kanban"/>
+            <div class="screenshot-text">
+                <span class="tag">Maintenance</span>
+                <h3>Maintenance Requests — Kanban Workflow</h3>
+                <p>Manage repair and service requests from a visual kanban board.
+                   Property status updates automatically when work starts and finishes.</p>
+                <ul class="check-list">
+                    <li>Types: Plumbing, Electrical, HVAC, Painting…</li>
+                    <li>Priority: Normal / Urgent / Critical</li>
+                    <li>Estimated vs. actual cost tracking</li>
+                    <li>Automatic property status sync</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="screenshot-block">
+            <img src="screen_05_owners.png" alt="Owners List"/>
+            <div class="screenshot-text">
+                <span class="tag">Owners &amp; Renters</span>
+                <h3>Owner &amp; Tenant Profiles</h3>
+                <p>Complete profiles for every owner and tenant with contact details,
+                   identity documents and a smart-button counter bar.</p>
+                <ul class="check-list">
+                    <li>Phone, email, address and ID/passport number</li>
+                    <li>Profile photo support</li>
+                    <li>Smart buttons: Properties · Contracts · Payments</li>
+                    <li>Full chatter and activity scheduling</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="screenshot-block reverse">
+            <img src="screen_11_api_keys.png" alt="API Keys"/>
+            <div class="screenshot-text">
+                <span class="tag">Mobile API</span>
+                <h3>API Keys &amp; Integration Logs</h3>
+                <p>Generate secure UUID-based API keys for mobile applications.
+                   Every call is logged with endpoint, method, HTTP status and duration.</p>
+                <ul class="check-list">
+                    <li>One-click UUID key generation &amp; regeneration</li>
+                    <li>Expiry date per key</li>
+                    <li>Full call log: method, endpoint, status, duration</li>
+                    <li>Enable / disable keys without deletion</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Workflow -->
+    <div class="section">
+        <div class="section-title">How It Works</div>
+        <div class="divider"></div>
+        <div class="section-subtitle">Five simple steps from property setup to rent collection</div>
+        <div class="steps">
+            <div class="step"><div class="step-num">1</div><h4>Add Owner</h4><p>Create the property owner profile</p></div>
+            <div class="step"><div class="step-num">2</div><h4>Add Property</h4><p>Register with type, area and rent amount</p></div>
+            <div class="step"><div class="step-num">3</div><h4>Add Renter</h4><p>Create the tenant profile</p></div>
+            <div class="step"><div class="step-num">4</div><h4>Activate Contract</h4><p>Payments auto-generated on activation</p></div>
+            <div class="step"><div class="step-num">5</div><h4>Track Payments</h4><p>Mark paid, invoice and monitor overdue</p></div>
+        </div>
+    </div>
+
+    <!-- Technical -->
+    <div class="section">
+        <div class="section-title">Technical Details</div>
+        <div class="divider"></div>
+        <div class="tech-cols">
+            <div class="tech-col">
+                <h3>Models Included</h3>
+                <ul class="check-list">
+                    <li><code>property.property</code> — Rental Property</li>
+                    <li><code>property.owner</code> — Property Owner</li>
+                    <li><code>property.renter</code> — Renter / Tenant</li>
+                    <li><code>property.contract</code> — Rental Contract</li>
+                    <li><code>property.payment</code> — Rent Payment</li>
+                    <li><code>property.maintenance</code> — Maintenance</li>
+                    <li><code>property.api.key</code> — API Key</li>
+                    <li><code>property.api.log</code> — API Log</li>
+                </ul>
+            </div>
+            <div class="tech-col">
+                <h3>Dependencies</h3>
+                <div class="deps">
+                    <span class="dep">contacts</span>
+                    <span class="dep">mail</span>
+                    <span class="dep">account</span>
+                </div>
+                <br/>
+                <h3>Sequences</h3>
+                <ul class="check-list">
+                    <li>Properties: <code>PROP/2026/0001</code></li>
+                    <li>Contracts: <code>CONT/2026/0001</code></li>
+                    <li>Maintenance: <code>MNT/2026/0001</code></li>
+                </ul>
+            </div>
+            <div class="tech-col">
+                <h3>Key Highlights</h3>
+                <ul class="check-list">
+                    <li>Chatter on every model</li>
+                    <li>Full field change tracking</li>
+                    <li>Cron job for late payments</li>
+                    <li>Odoo invoice integration</li>
+                    <li>Demo data included</li>
+                    <li>Odoo 19.0 compatible</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p><strong>Rent Property Management</strong> &nbsp;·&nbsp; Version 19.0.1.0.0 &nbsp;·&nbsp; License LGPL-3</p>
+        <p>Built for Odoo 19 &nbsp;·&nbsp; Includes demo data to get started instantly</p>
+    </div>
+
+</div><!-- /panel-en -->
+
+
+<!-- ══════════════════════════════════════════════════════════════════════════
+     ARABIC PANEL
+══════════════════════════════════════════════════════════════════════════ -->
+<div id="panel-ar" class="panel" dir="rtl">
+
+    <!-- Hero -->
+    <div class="hero">
+        <img class="hero-logo" src="icon.png" alt="إدارة العقارات"/>
+        <h1>نظام إدارة العقارات الإيجارية</h1>
+        <p>حل متكامل لإدارة العقارات الإيجارية — الملاك، المستأجرون، العقود،
+           المدفوعات، الصيانة وواجهة برمجة التطبيقات، كل ذلك داخل أودو 19.</p>
+        <div class="hero-badges">
+            <span class="hero-badge">🏠 العقارات</span>
+            <span class="hero-badge">📄 العقود</span>
+            <span class="hero-badge">💰 المدفوعات</span>
+            <span class="hero-badge">🔧 الصيانة</span>
+            <span class="hero-badge">📱 واجهة موبايل</span>
+            <span class="hero-badge">Odoo 19.0</span>
+        </div>
+    </div>
+
+    <!-- KPIs -->
+    <div class="section">
+        <div class="highlights">
+            <div class="highlight"><div class="big">8</div><div class="lbl">نماذج متخصصة</div></div>
+            <div class="highlight"><div class="big">5</div><div class="lbl">أقسام في التطبيق</div></div>
+            <div class="highlight"><div class="big">∞</div><div class="lbl">عقارات وعقود بلا حدود</div></div>
+            <div class="highlight"><div class="big">📱</div><div class="lbl">جاهز للتطبيقات الذكية</div></div>
+            <div class="highlight"><div class="big">🔁</div><div class="lbl">جدولة مدفوعات تلقائية</div></div>
+        </div>
+    </div>
+
+    <!-- Features -->
+    <div class="section">
+        <div class="section-title">كل ما تحتاجه لإدارة عقاراتك</div>
+        <div class="divider"></div>
+        <div class="section-subtitle">جميع الوحدات تعمل معاً في سير عمل متكامل — دون الحاجة لأي تطبيقات خارجية.</div>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="icon">🏠</div>
+                <h3>محفظة العقارات</h3>
+                <p>تتبع الشقق والفلل والمكاتب والمحلات والمستودعات مع النوع والمساحة
+                   وعدد الغرف والطابق وحالة التأثيث والصور ومبلغ الإيجار. عرض كانبان وقائمة
+                   مع شارات الحالة.</p>
+            </div>
+            <div class="feature-card">
+                <div class="icon">👤</div>
+                <h3>ملفات الملاك والمستأجرين</h3>
+                <p>ملفات كاملة للملاك والمستأجرين — الهاتف، البريد الإلكتروني، رقم الهوية،
+                   الصورة الشخصية، وأزرار ذكية تربط مباشرة بعقاراتهم وعقودهم
+                   وسجل مدفوعاتهم.</p>
+            </div>
+            <div class="feature-card">
+                <div class="icon">📄</div>
+                <h3>عقود الإيجار</h3>
+                <p>دورة حياة كاملة: مسودة ← نشط ← منتهٍ/ملغى. عند التفعيل تُنشأ
+                   جداول الدفع تلقائياً حسب التكرار
+                   (شهري، ربع سنوي، نصف سنوي، سنوي).</p>
+            </div>
+            <div class="feature-card">
+                <div class="icon">💰</div>
+                <h3>تتبع المدفوعات</h3>
+                <p>مدفوعات ملونة: أخضر (مدفوع)، أحمر (متأخر)، برتقالي (معلق).
+                   علّم كمدفوع بنقرة واحدة، وتحديد تلقائي للمتأخرات عبر الجدولة،
+                   مع إنشاء فاتورة أودو مباشرةً.</p>
+            </div>
+            <div class="feature-card">
+                <div class="icon">🔧</div>
+                <h3>سير عمل الصيانة</h3>
+                <p>طلبات صيانة مع النوع (سباكة، كهرباء، تكييف…)، الأولوية
+                   (عادي / عاجل / حرج)، الفني المسؤول وتتبع التكلفة، مع
+                   تحديث تلقائي لحالة العقار.</p>
+            </div>
+            <div class="feature-card">
+                <div class="icon">📱</div>
+                <h3>واجهة برمجية للموبايل</h3>
+                <p>إنشاء مفاتيح API آمنة لتطبيقات الموبايل. سجل متكامل للطلبات
+                   يشمل المسار، الطريقة، كود الاستجابة، عنوان IP
+                   ومدة التنفيذ — جاهز لتطبيقات Flutter.</p>
+            </div>
+            <div class="feature-card">
+                <div class="icon">📊</div>
+                <h3>لوحة تحكم ذكية</h3>
+                <p>نظرة شاملة على محفظتك مجمّعة حسب الحالة والنوع. عروض محورية
+                   وبيانية لتحليل الأداء. فلاتر سريعة:
+                   متاح، مؤجر، تحت الصيانة.</p>
+            </div>
+            <div class="feature-card">
+                <div class="icon">📅</div>
+                <h3>جدولة الدفعات التلقائية</h3>
+                <p>عند تفعيل العقد تُنشأ تلقائياً جميع سجلات الدفعات المجدولة
+                   لكامل مدة العقد، مما يوفر ساعات من الإدخال اليدوي.</p>
+            </div>
+            <div class="feature-card">
+                <div class="icon">🔔</div>
+                <h3>المحادثات والتتبع</h3>
+                <p>كل نموذج يدعم المحادثة الكاملة — تسجيل ملاحظات، إرسال رسائل،
+                   جدولة أنشطة. تتبع الحقول يسجّل من غيّر ماذا ومتى
+                   في كل سجل.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Screenshots -->
+    <div class="section">
+        <div class="section-title">لقطات الشاشة</div>
+        <div class="divider"></div>
+
+        <div class="screenshot-block">
+            <img src="screen_03_properties_kanban.png" alt="عرض كانبان العقارات"/>
+            <div class="screenshot-text">
+                <span class="tag">العقارات</span>
+                <h3>عرض كانبان — العقارات حسب الحالة</h3>
+                <p>نظرة بصرية فورية على محفظتك منظمة في أعمدة حسب الحالة.
+                   كل بطاقة تعرض اسم العقار، النوع، المدينة وقيمة الإيجار الشهري.</p>
+                <ul class="check-list">
+                    <li>تجميع حسب الحالة، النوع، المالك أو المدينة</li>
+                    <li>أعمدة ملونة: متاح، مؤجر، تحت الصيانة</li>
+                    <li>التبديل إلى عرض القائمة أو المحور بنقرة واحدة</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="screenshot-block reverse">
+            <img src="screen_08_contract_form.png" alt="نموذج عقد الإيجار"/>
+            <div class="screenshot-text">
+                <span class="tag">العقود</span>
+                <h3>عقد الإيجار — دورة حياة متكاملة</h3>
+                <p>كل عقد يربط مالكاً ومستأجراً وعقاراً معاً. تفعيل العقد
+                   ينشئ تلقائياً جميع دفعات الإيجار لكامل مدة العقد.</p>
+                <ul class="check-list">
+                    <li>شريط الحالة: مسودة ← نشط ← منتهٍ</li>
+                    <li>إنشاء دفعات تلقائي عند التفعيل</li>
+                    <li>تتبع مبلغ التأمين</li>
+                    <li>جدول دفعات مدمج مع زر التحديد كمدفوع</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="screenshot-block">
+            <img src="screen_09_payments.png" alt="قائمة المدفوعات"/>
+            <div class="screenshot-text">
+                <span class="tag">المدفوعات</span>
+                <h3>دفعات الإيجار — تتبع ملوّن</h3>
+                <p>جميع المدفوعات من كل العقود في مكان واحد. صفوف مميزة
+                   بالأخضر (مدفوع)، الأحمر (متأخر) والأصفر (معلق).</p>
+                <ul class="check-list">
+                    <li>حالات: مدفوع / متأخر / معلق / ملغى</li>
+                    <li>تحديد كمدفوع بنقرة واحدة</li>
+                    <li>جدولة تلقائية لتحديد المتأخرات</li>
+                    <li>إنشاء فاتورة أودو مباشرة من الدفعة</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="screenshot-block reverse">
+            <img src="screen_10_maintenance_kanban.png" alt="كانبان الصيانة"/>
+            <div class="screenshot-text">
+                <span class="tag">الصيانة</span>
+                <h3>طلبات الصيانة — سير عمل كانبان</h3>
+                <p>إدارة طلبات الإصلاح والخدمة من لوحة كانبان بصرية.
+                   حالة العقار تتحدث تلقائياً عند بدء العمل وانتهائه.</p>
+                <ul class="check-list">
+                    <li>الأنواع: سباكة، كهرباء، تكييف، دهان…</li>
+                    <li>الأولوية: عادي / عاجل / حرج</li>
+                    <li>تتبع التكلفة التقديرية والفعلية</li>
+                    <li>تزامن تلقائي مع حالة العقار</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="screenshot-block">
+            <img src="screen_05_owners.png" alt="قائمة الملاك"/>
+            <div class="screenshot-text">
+                <span class="tag">الملاك والمستأجرون</span>
+                <h3>ملفات الملاك والمستأجرين</h3>
+                <p>ملفات كاملة لكل مالك ومستأجر مع بيانات التواصل ووثائق
+                   الهوية وشريط أزرار ذكية يعرض الإحصائيات فوراً.</p>
+                <ul class="check-list">
+                    <li>الهاتف، البريد، العنوان ورقم الهوية</li>
+                    <li>دعم الصورة الشخصية</li>
+                    <li>أزرار ذكية: العقارات · العقود · المدفوعات</li>
+                    <li>محادثة كاملة وجدولة أنشطة</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="screenshot-block reverse">
+            <img src="screen_11_api_keys.png" alt="مفاتيح API"/>
+            <div class="screenshot-text">
+                <span class="tag">الواجهة البرمجية</span>
+                <h3>مفاتيح API وسجلات التكامل</h3>
+                <p>أنشئ مفاتيح API آمنة لتطبيقات الموبايل. كل استدعاء
+                   يُسجَّل مع المسار والطريقة وكود الاستجابة والمدة.</p>
+                <ul class="check-list">
+                    <li>إنشاء وتجديد مفتاح UUID بنقرة واحدة</li>
+                    <li>تاريخ انتهاء صلاحية لكل مفتاح</li>
+                    <li>سجل كامل: الطريقة، المسار، الحالة، المدة</li>
+                    <li>تفعيل وتعطيل المفاتيح دون حذف</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Workflow -->
+    <div class="section">
+        <div class="section-title">كيف يعمل النظام؟</div>
+        <div class="divider"></div>
+        <div class="section-subtitle">خمس خطوات بسيطة من إعداد العقار إلى تحصيل الإيجار</div>
+        <div class="steps">
+            <div class="step"><div class="step-num">١</div><h4>أضف المالك</h4><p>أنشئ ملف المالك مع بيانات التواصل</p></div>
+            <div class="step"><div class="step-num">٢</div><h4>أضف العقار</h4><p>سجّل العقار بالنوع والمساحة وقيمة الإيجار</p></div>
+            <div class="step"><div class="step-num">٣</div><h4>أضف المستأجر</h4><p>أنشئ ملف المستأجر مع بيانات هويته</p></div>
+            <div class="step"><div class="step-num">٤</div><h4>فعّل العقد</h4><p>تُنشأ الدفعات تلقائياً عند التفعيل</p></div>
+            <div class="step"><div class="step-num">٥</div><h4>تتبع المدفوعات</h4><p>علّم كمدفوع، أصدر فواتير وراقب التأخيرات</p></div>
+        </div>
+    </div>
+
+    <!-- Technical -->
+    <div class="section">
+        <div class="section-title">التفاصيل التقنية</div>
+        <div class="divider"></div>
+        <div class="tech-cols">
+            <div class="tech-col">
+                <h3>النماذج المتضمنة</h3>
+                <ul class="check-list">
+                    <li><code>property.property</code> — العقار الإيجاري</li>
+                    <li><code>property.owner</code> — مالك العقار</li>
+                    <li><code>property.renter</code> — المستأجر</li>
+                    <li><code>property.contract</code> — عقد الإيجار</li>
+                    <li><code>property.payment</code> — دفعة الإيجار</li>
+                    <li><code>property.maintenance</code> — طلب الصيانة</li>
+                    <li><code>property.api.key</code> — مفتاح API</li>
+                    <li><code>property.api.log</code> — سجل API</li>
+                </ul>
+            </div>
+            <div class="tech-col">
+                <h3>الاعتماديات</h3>
+                <div class="deps">
+                    <span class="dep">contacts</span>
+                    <span class="dep">mail</span>
+                    <span class="dep">account</span>
+                </div>
+                <br/>
+                <h3>التسلسلات التلقائية</h3>
+                <ul class="check-list">
+                    <li>العقارات: <code>PROP/2026/0001</code></li>
+                    <li>العقود: <code>CONT/2026/0001</code></li>
+                    <li>الصيانة: <code>MNT/2026/0001</code></li>
+                </ul>
+            </div>
+            <div class="tech-col">
+                <h3>المميزات الرئيسية</h3>
+                <ul class="check-list">
+                    <li>محادثة كاملة على كل نموذج</li>
+                    <li>تتبع تغييرات الحقول</li>
+                    <li>مهمة مجدولة للمدفوعات المتأخرة</li>
+                    <li>تكامل مع فواتير أودو</li>
+                    <li>بيانات تجريبية مرفقة</li>
+                    <li>متوافق مع أودو 19.0</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p><strong>نظام إدارة العقارات الإيجارية</strong> &nbsp;·&nbsp; الإصدار 19.0.1.0.0 &nbsp;·&nbsp; رخصة LGPL-3</p>
+        <p>مبني لأودو 19 &nbsp;·&nbsp; يتضمن بيانات تجريبية للبدء فوراً</p>
+    </div>
+
+</div><!-- /panel-ar -->
+
+</body>
+</html>
