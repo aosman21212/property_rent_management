@@ -30,8 +30,8 @@ Manage your rental properties end-to-end:
     'category': 'Real Estate',
     'author': 'leapai.ai',
     'website': 'https://leapai.ai',
-    'maintainer': 'a.osman@bab.com.sa',
-    'support': 'abdzoro89@gmail.com',
+    'maintainer': 'Abdulkaraim Osman',
+    'support': 'sales@leapai.ai',
     'depends': ['contacts', 'mail', 'account'],
     'data': [
         'security/ir.model.access.csv',

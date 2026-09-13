@@ -189,6 +189,39 @@
             font-size: 0.82rem;
         }
 
+        /* ── Contact ───────────────────────────────────────────────────── */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+        }
+        .contact-card {
+            background: #fff;
+            border-radius: 14px;
+            padding: 28px 24px;
+            box-shadow: 0 2px 14px rgba(113,75,103,0.10);
+            border-top: 4px solid #714B67;
+        }
+        .contact-card h3 {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: #714B67;
+            margin-bottom: 10px;
+        }
+        .contact-card p {
+            font-size: 0.9rem;
+            color: #555;
+            margin-bottom: 6px;
+            line-height: 1.55;
+        }
+        .contact-card a {
+            color: #017E84;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .contact-card a:hover { text-decoration: underline; }
+        .contact-card .muted { color: #6C757D; font-size: 0.82rem; margin-top: 10px; }
+
         /* ── Footer ────────────────────────────────────────────────────── */
         .footer {
             background: #1F1436; color: rgba(255,255,255,0.7);
@@ -196,10 +229,13 @@
         }
         .footer strong { color: #fff; }
         .footer p + p { margin-top: 8px; font-size: 0.8rem; }
+        .footer a { color: #C8B6D8; text-decoration: none; }
+        .footer a:hover { color: #fff; text-decoration: underline; }
 
         /* ── Responsive ────────────────────────────────────────────────── */
         @media (max-width: 900px) {
             .features-grid { grid-template-columns: 1fr 1fr; }
+            .contact-grid { grid-template-columns: 1fr; }
             .screenshot-block,
             .screenshot-block.reverse { flex-direction: column; }
             .screenshot-block img { width: 100%; }
@@ -498,9 +534,41 @@ function switchLang(lang) {
         </div>
     </div>
 
+    <!-- Contact -->
+    <div class="section">
+        <div class="section-title">Contact leapai.ai</div>
+        <div class="divider"></div>
+        <div class="section-subtitle">King Abdulaziz Branch Road, Riyadh, Saudi Arabia</div>
+        <div class="contact-grid">
+            <div class="contact-card">
+                <h3>Our Location</h3>
+                <p>King Abdulaziz Branch Road</p>
+                <p>Riyadh, Saudi Arabia</p>
+                <p class="muted">View on map · Riyadh, KSA</p>
+            </div>
+            <div class="contact-card">
+                <h3>Send an Email</h3>
+                <p><a href="mailto:sales@leapai.ai">sales@leapai.ai</a></p>
+                <p class="muted">Email us now</p>
+            </div>
+            <div class="contact-card">
+                <h3>Call Anytime</h3>
+                <p><a href="tel:+966535533627">+966 53 553 3627</a></p>
+            </div>
+            <div class="contact-card">
+                <h3>Developer</h3>
+                <p><strong>Abdulkaraim Osman</strong></p>
+                <p>Tech Manager | Backend Engineer | DevOps Engineer</p>
+                <p>Bab International Corp For Specialized Services</p>
+                <p><a href="https://www.linkedin.com/in/abdulkaraim-o-385b7a110/">LinkedIn Profile</a></p>
+            </div>
+        </div>
+    </div>
+
     <div class="footer">
         <p><strong>Rent Property Management</strong> &nbsp;·&nbsp; Version 19.0.1.0.0 &nbsp;·&nbsp; License LGPL-3</p>
-        <p>Built for Odoo 19 &nbsp;·&nbsp; Includes demo data to get started instantly</p>
+        <p>Built by <strong>leapai.ai</strong> for Odoo 19 &nbsp;·&nbsp; <a href="mailto:sales@leapai.ai">sales@leapai.ai</a> &nbsp;·&nbsp; <a href="https://leapai.ai">leapai.ai</a></p>
+        <p>Developer: Abdulkaraim Osman — Bab International Corp For Specialized Services</p>
     </div>
 
 </div><!-- /panel-en -->
@@ -771,9 +839,41 @@ function switchLang(lang) {
         </div>
     </div>
 
+    <!-- Contact -->
+    <div class="section">
+        <div class="section-title">تواصل مع leapai.ai</div>
+        <div class="divider"></div>
+        <div class="section-subtitle">طريق الملك عبدالعزيز الفرعي، الرياض، المملكة العربية السعودية</div>
+        <div class="contact-grid">
+            <div class="contact-card">
+                <h3>موقعنا</h3>
+                <p>طريق الملك عبدالعزيز الفرعي</p>
+                <p>الرياض، المملكة العربية السعودية</p>
+                <p class="muted">عرض على الخريطة · الرياض، السعودية</p>
+            </div>
+            <div class="contact-card">
+                <h3>راسلنا عبر البريد</h3>
+                <p><a href="mailto:sales@leapai.ai">sales@leapai.ai</a></p>
+                <p class="muted">أرسل بريداً الآن</p>
+            </div>
+            <div class="contact-card">
+                <h3>اتصل في أي وقت</h3>
+                <p><a href="tel:+966535533627">+966 53 553 3627</a></p>
+            </div>
+            <div class="contact-card">
+                <h3>المطوّر</h3>
+                <p><strong>عبدالكريم عثمان</strong></p>
+                <p>مدير تقني | مهندس خلفية | مهندس DevOps</p>
+                <p>باب إنترناشونال كورب للخدمات المتخصصة</p>
+                <p><a href="https://www.linkedin.com/in/abdulkaraim-o-385b7a110/">ملف LinkedIn</a></p>
+            </div>
+        </div>
+    </div>
+
     <div class="footer">
         <p><strong>نظام إدارة العقارات الإيجارية</strong> &nbsp;·&nbsp; الإصدار 19.0.1.0.0 &nbsp;·&nbsp; رخصة LGPL-3</p>
-        <p>مبني لأودو 19 &nbsp;·&nbsp; يتضمن بيانات تجريبية للبدء فوراً</p>
+        <p>من تطوير <strong>leapai.ai</strong> لأودو 19 &nbsp;·&nbsp; <a href="mailto:sales@leapai.ai">sales@leapai.ai</a> &nbsp;·&nbsp; <a href="https://leapai.ai">leapai.ai</a></p>
+        <p>المطوّر: عبدالكريم عثمان — باب إنترناشونال كورب للخدمات المتخصصة</p>
     </div>
 
 </div><!-- /panel-ar -->
