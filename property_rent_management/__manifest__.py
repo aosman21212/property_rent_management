@@ -1,3 +1,15 @@
+# -*- coding: utf-8 -*-
+# =============================================================================
+#  Rent Property Management
+# -----------------------------------------------------------------------------
+#  Location  : King Abdulaziz Branch Road, Riyadh, Saudi Arabia
+#  Email     : sales@leapai.ai
+#  Phone     : +966 53 553 3627
+#  Website   : https://leapai.ai
+#  Developer : Abdulkaraim Osman — Tech Manager | Backend Engineer | DevOps Engineer
+#              at Bab International Corp For Specialized Services
+#  LinkedIn  : https://www.linkedin.com/in/abdulkaraim-o-385b7a110/
+# =============================================================================
 {
     'name': 'Rent Property Management',
     'version': '19.0.1.0.0',
@@ -29,9 +41,9 @@ Manage your rental properties end-to-end:
     """,
     'category': 'Real Estate',
     'author': 'leapai.ai',
-    'website': 'https://leapai.ai',
     'maintainer': 'Abdulkaraim Osman',
     'support': 'sales@leapai.ai',
+    'website': 'https://leapai.ai',
     'depends': ['contacts', 'mail', 'account'],
     'data': [
         'security/ir.model.access.csv',
